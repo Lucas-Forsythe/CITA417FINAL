@@ -72,3 +72,18 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Additional Unreal Engine build files
+Lab08Build/
+
+# Debugging symbols
+*.pdb
+*.ilk
+
+# Packaged Unreal Engine files
+*.ucas
+*.utoc
+*.pak
+
+# IDE files
+.idea/

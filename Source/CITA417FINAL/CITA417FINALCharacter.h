@@ -92,5 +92,14 @@ public:
 
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	
+	UFUNCTION(BlueprintPure, Category="Character State")
+	float GetMovementSpeed() const;
+
+	UFUNCTION(BlueprintPure, Category="Character State")
+	float GetMovementDirection() const;   // -180..180, 0 = forward
+
+	UFUNCTION(BlueprintPure, Category="Character State")
+	bool IsAirborne() const;
 };
 

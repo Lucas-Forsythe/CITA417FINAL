@@ -19,11 +19,11 @@ ACITA417FINALCharacter::ACITA417FINALCharacter()
 		
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->bOrientRotationToMovement = false;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
 
 	// Note: For faster iteration times these variables, and many more, can be tweaked in the Character Blueprint
@@ -130,4 +130,24 @@ void ACITA417FINALCharacter::DoJumpEnd()
 {
 	// signal the character to stop jumping
 	StopJumping();
+}
+
+float ACITA417FINALCharacter::GetMovementSpeed() const
+{
+	return GetVelocity().Size2D();
+}
+
+float ACITA417FINALCharacter::GetMovementDirection() const
+{
+	FVector Velocity = GetVelocity();
+	Velocity.Z = 0.f;
+	if (Velocity.IsNearlyZero()) return 0.f;
+	const FRotator YawOnly(0.f, GetActorRotation().Yaw, 0.f);
+	const FVector Local = YawOnly.UnrotateVector(Velocity.GetSafeNormal());
+	return FMath::RadiansToDegrees(FMath::Atan2(Local.Y, Local.X));
+}
+
+bool ACITA417FINALCharacter::IsAirborne() const
+{
+	return GetCharacterMovement()->IsFalling();
 }
