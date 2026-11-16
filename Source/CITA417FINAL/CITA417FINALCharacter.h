@@ -11,6 +11,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
 struct FInputActionValue;
+class UWeaponComponent;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -101,5 +102,18 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="Character State")
 	bool IsAirborne() const;
+
+	UFUNCTION(BlueprintPure, Category="Character State")
+	bool IsAttacking() const;
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
+	TObjectPtr<UWeaponComponent> Weapon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
+	TObjectPtr<UInputAction> FireAction;
+
+	void OnFirePressed();
 };
+
 

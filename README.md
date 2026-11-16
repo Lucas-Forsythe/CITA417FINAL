@@ -1,6 +1,14 @@
 # CITA417FINAL
 
 
+## Lab 09: Combat & Damage Architecture
+```
+Input (IA_Fire) → Character → WeaponComponent → Line Trace → ApplyPointDamage → HealthComponent → Feedback / Death
+```
+
+**Crate question:** If I add a destructible crate tomorrow, the input, the Character, the WeaponComponent, the line trace, and the HealthComponent all work unchanged. The crate only needs a mesh with trace collision and a HealthComponent. The weapon never needs to know what a crate is, because it only applies damage to whatever Actor it hits.
+
+**Independent improvement:** Fire cooldown (rate of fire) in WeaponComponent, plus an upper-body attack layer driven by an `IsAttacking` fact exposed through the Lab 08 AnimInstance.
 
 \# CITA417FINAL – Lab 08: Character State \& Animation Architecture
 

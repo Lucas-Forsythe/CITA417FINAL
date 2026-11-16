@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "CITA417FINAL.h"
+#include "WeaponComponent.h"
 
 ACITA417FINALCharacter::ACITA417FINALCharacter()
 {
@@ -45,6 +46,8 @@ ACITA417FINALCharacter::ACITA417FINALCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+	
+	Weapon = CreateDefaultSubobject<UWeaponComponent>(TEXT("Weapon"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -65,11 +68,17 @@ void ACITA417FINALCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACITA417FINALCharacter::Look);
+		
+		if (FireAction)
+			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &ACITA417FINALCharacter::OnFirePressed);
+		else
+			UE_LOG(LogTemp, Warning, TEXT("FireAction not set on %s"), *GetName());
 	}
 	else
 	{
 		UE_LOG(LogCITA417FINAL, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+	
 }
 
 void ACITA417FINALCharacter::Move(const FInputActionValue& Value)
@@ -150,4 +159,15 @@ float ACITA417FINALCharacter::GetMovementDirection() const
 bool ACITA417FINALCharacter::IsAirborne() const
 {
 	return GetCharacterMovement()->IsFalling();
+}
+
+void ACITA417FINALCharacter::OnFirePressed()
+{
+	if (Weapon) Weapon->Fire();
+	else UE_LOG(LogTemp, Warning, TEXT("No WeaponComponent on %s"), *GetName());
+}
+
+bool ACITA417FINALCharacter::IsAttacking() const
+{
+	return Weapon && Weapon->IsFiring();
 }

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-#include "CITA417FINALCharacter.h"
 #include "CITA417AnimInstance.h"
+#include "CITA417FINALCharacter.h"
+
 
 void UCITA417AnimInstance::NativeInitializeAnimation()
 {
@@ -20,6 +20,8 @@ void UCITA417AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	Speed       = OwnerCharacter->GetMovementSpeed();
 	Direction   = OwnerCharacter->GetMovementDirection();
 	bIsAirborne = OwnerCharacter->IsAirborne();
+	bIsAttacking = OwnerCharacter->IsAttacking();
+	AttackAlpha  = FMath::FInterpTo(AttackAlpha, bIsAttacking ? 1.f : 0.f, DeltaSeconds, 15.f);
 
 	if (bShowDebug && GEngine)
 	{
