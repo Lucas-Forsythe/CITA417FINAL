@@ -48,7 +48,13 @@ bool UWeaponComponent::Fire()
 
 	FCollisionQueryParams Params(SCENE_QUERY_STAT(WeaponTrace), false, OwnerPawn);  // ignore self
 	FHitResult Hit;
-	const bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params);
+	FCollisionObjectQueryParams ObjParams;
+	
+	ObjParams.AddObjectTypesToQuery(ECC_WorldStatic);
+	ObjParams.AddObjectTypesToQuery(ECC_WorldDynamic);
+	ObjParams.AddObjectTypesToQuery(ECC_Pawn);
+	ObjParams.AddObjectTypesToQuery(ECC_PhysicsBody);
+	const bool bHit = World->LineTraceSingleByObjectType(Hit, Start, End, ObjParams, Params);
 
 	if (bDrawDebug)
 	{

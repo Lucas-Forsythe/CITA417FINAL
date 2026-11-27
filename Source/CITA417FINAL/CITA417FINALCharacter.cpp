@@ -76,9 +76,8 @@ void ACITA417FINALCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 	}
 	else
 	{
-		UE_LOG(LogCITA417FINAL, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+		UE_LOG(LogCITA417FINAL, Error, TEXT("'%s' Failed to find an Enhanced Input component! ..."), *GetNameSafe(this));
 	}
-	
 }
 
 void ACITA417FINALCharacter::Move(const FInputActionValue& Value)
