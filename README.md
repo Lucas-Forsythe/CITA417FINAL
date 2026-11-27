@@ -1,5 +1,20 @@
 # CITA417FINAL
+## Lab 10: Autonomous AI & Systems Integration
+```
+Player Controller → ACITA417FINALCharacter ◄── possesses ── AEnemyAIController
+                      │ (same class)                          ▲        │
+                      ├─ WeaponComponent → Trace → ApplyPointDamage → HealthComponent → Death
+                      └─ Speed / Direction / Airborne / Attacking → AnimInstance → ABP_Character
 
+AI Perception (Sight) → AEnemyAIController → Blackboard ⇄ Behavior Tree
+   (Selector/Sequence, Decorators, UpdateCombatState service) → C++ Tasks (Attack, FindPatrolPoint) → Movement / WeaponComponent
+```
+
+**Decision design:** Perception writes `TargetActor` and `LastKnownLocation` into the Blackboard. The Behavior Tree chooses between Combat, Search, and Patrol. Tasks reuse the existing movement, weapon, health, and animation systems.
+
+**Differs from a tutorial:** the AI uses the same Character, WeaponComponent, and HealthComponent as the player. The search timeout, attack range, and patrol radius are editable.
+
+**Independent improvement:** configurable Attack Range (BT service), Search Timeout (controller), and Patrol Radius (task), which together allow multiple enemy archetypes from the same framework.
 
 ## Lab 09: Combat & Damage Architecture
 ```
